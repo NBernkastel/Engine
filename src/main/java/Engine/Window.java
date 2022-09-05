@@ -1,5 +1,6 @@
 package Engine;
 
+import Scenes.BaseScene;
 import eventHandlers.KeyListener;
 import eventHandlers.MouseListener;
 import eventHandlers.WindowResizeListener;

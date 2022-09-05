@@ -1,5 +1,9 @@
-package Engine;
+package Scenes;
 
+import Engine.Camera;
+import Engine.GameObject;
+import Engine.Scene;
+import Engine.Transform;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -14,7 +18,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class BaseScene extends Scene {
     public BaseScene() {
     }
-
+    Menu menu;
     @Override
     public void init() {
         loadResources();
@@ -35,16 +39,9 @@ public class BaseScene extends Scene {
 
     @Override
     public void update(float dt) {
-        if (KeyListener.isKeyPressed(GLFW_KEY_RIGHT)) {
-            camera.position.x += 100f * dt;
-        } else if (KeyListener.isKeyPressed(GLFW_KEY_LEFT)) {
-            camera.position.x -= 100f * dt;
-        }
-        if (KeyListener.isKeyPressed(GLFW_KEY_UP)) {
-            camera.position.y += 100f * dt;
-        } else if (KeyListener.isKeyPressed(GLFW_KEY_DOWN)) {
-            camera.position.y -= 100f * dt;
-        }
+        camera.update(dt);
+        if (KeyListener.isKeyPressed(GLFW_KEY_E))
+
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }

@@ -1,8 +1,12 @@
 package Engine;
 
+import eventHandlers.KeyListener;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 
 public class Camera {
     private Matrix4f projectionMatrix, viewMatrix;
@@ -14,7 +18,18 @@ public class Camera {
         this.viewMatrix = new Matrix4f();
         adjustProjection();
     }
-
+    public void update(float dt){
+        if (KeyListener.isKeyPressed(GLFW_KEY_A)) {
+            this.position.x += 100f * dt;
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_D)) {
+            this.position.x -= 100f * dt;
+        }
+        if (KeyListener.isKeyPressed(GLFW_KEY_S)) {
+            this.position.y += 100f * dt;
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_W)) {
+            this.position.y -= 100f * dt;
+        }
+    }
     public void adjustProjection() {
         projectionMatrix.identity();
         projectionMatrix.ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 20.0f);
