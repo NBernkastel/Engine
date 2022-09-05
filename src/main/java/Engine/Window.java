@@ -1,6 +1,7 @@
 package Engine;
 
 import Scenes.BaseScene;
+import Scenes.Menu;
 import eventHandlers.KeyListener;
 import eventHandlers.MouseListener;
 import eventHandlers.WindowResizeListener;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
@@ -26,11 +28,13 @@ public class Window {
     private static Window window = null;
 
     private static Scene currentScene;
+    private static Scene menu;
+    public static boolean isMenuCall = false;
 
     private Window() {
         this.width = 1920;
         this.height = 1080;
-        this.title = "My Starter Project";
+        this.title = "ZXc";
     }
 
     public static void changeScene(int newScene) {
@@ -38,7 +42,9 @@ public class Window {
          * Add new scene configurations in here.
          * That way you can have more then one scene.
          */
-
+        menu = new Menu();
+        menu.init();
+        menu.start();
         switch (newScene) {
             case 0:
                 currentScene = new BaseScene();
@@ -60,7 +66,10 @@ public class Window {
     }
 
     public static Scene getScene() {
-        return get().currentScene;
+        if (isMenuCall)
+            return get().menu;
+        else
+            return get().currentScene;
     }
 
     public void run() {
@@ -118,6 +127,7 @@ public class Window {
         GL.createCapabilities();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFuncSeparate( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA );
         // Set resize callback after we make the current context.
         glfwSetWindowSizeCallback(glfwWindow, WindowResizeListener::resizeCallback);
 
@@ -143,11 +153,12 @@ public class Window {
             // Poll events
             glfwPollEvents();
 
-            glClearColor(1f, 1f, 1f, 1f);
+            glClearColor(0f, 0f, 0f, 1f);
             glClear(GL_COLOR_BUFFER_BIT);
-
-            currentScene.update(dt);
-
+            if (isMenuCall == true)
+                menu.update(dt);
+            else
+                currentScene.update(dt);
             glfwSwapBuffers(glfwWindow);
         }
     }

@@ -11,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 public class Camera {
     private Matrix4f projectionMatrix, viewMatrix;
     public Vector2f position;
-
+    public boolean isCameraLocked = false;
     public Camera(Vector2f position) {
         this.position = position;
         this.projectionMatrix = new Matrix4f();

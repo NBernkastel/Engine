@@ -1,9 +1,6 @@
 package Scenes;
 
-import Engine.Camera;
-import Engine.GameObject;
-import Engine.Scene;
-import Engine.Transform;
+import Engine.*;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -18,34 +15,37 @@ import static org.lwjgl.glfw.GLFW.*;
 public class BaseScene extends Scene {
     public BaseScene() {
     }
-    Menu menu;
+    GameObject player;
+    Camera camera;
     @Override
     public void init() {
         loadResources();
         this.camera = new Camera(new Vector2f(0, 0));
-        GameObject object1 = new GameObject("test",new Transform(new Vector2f(200f,200f),new Vector2f(500,500)),10);
-        object1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/blendImage1.png"))));
-        GameObject object2 = new GameObject("test",new Transform(new Vector2f(300f,100f),new Vector2f(500,500)),-20);
-        object2.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/blendImage2.png"))));
-        addGameObjectToScene(object2);
-        addGameObjectToScene(object1);
+        player = new GameObject("player",new Transform(new Vector2f(500,200),new Vector2f(133*2,117*2)),0);
+        player.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/testImage.png"))));
+        addGameObjectToScene(player);
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
-        AssetPool.addSpritesheet("assets/images/spritesheet.png",new Spritesheet(AssetPool.getTexture("assets/images/spritesheet.png"),
-                16,16,26,0));
     }
 
     @Override
     public void update(float dt) {
-        camera.update(dt);
-        if (KeyListener.isKeyPressed(GLFW_KEY_E))
-
+        if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)){
+            Window.isMenuCall = true;
+            camera.isCameraLocked = true;
+        }
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
-
+        if (!camera.isCameraLocked)
+            camera.update(dt);
         this.renderer.render();
+    }
+
+    @Override
+    public Camera camera() {
+        return camera;
     }
 }
