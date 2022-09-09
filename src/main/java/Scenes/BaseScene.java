@@ -1,6 +1,7 @@
 package Scenes;
 
 import Engine.*;
+import Objects.Player;
 import components.Sprite;
 import components.SpriteRenderer;
 import components.Spritesheet;
@@ -15,19 +16,21 @@ import static org.lwjgl.glfw.GLFW.*;
 public class BaseScene extends Scene {
     public BaseScene() {
     }
-    GameObject player;
+    Player player;
     Camera camera;
+    public Spritesheet plsheet  = AssetPool.getSpritesheet("assets/images/player.png");
     @Override
     public void init() {
         loadResources();
         this.camera = new Camera(new Vector2f(0, 0));
-        player = new GameObject("player",new Transform(new Vector2f(500,200),new Vector2f(133*2,117*2)),0);
-        player.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/testImage.png"))));
+        player = new Player("player",new Transform(new Vector2f(500,200),new Vector2f(133,117)),0);
+        player.addComponent(new SpriteRenderer(plsheet.getSprite(0)));
         addGameObjectToScene(player);
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
+        AssetPool.addSpritesheet("assets/images/player.png",new Spritesheet(AssetPool.getTexture("assets/images/player.png"),32,32,2,0));
     }
 
     @Override

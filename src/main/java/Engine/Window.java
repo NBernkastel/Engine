@@ -96,12 +96,19 @@ public class Window {
 
         // Configure GLFW
         glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-
+        GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+       // glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+       // glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+       // glfwWindowHint( GLFW_SCALE_TO_MONITOR,GLFW_TRUE);
         // Create the window
-        glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+      // glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+        glfwWindowHint(GLFW_RED_BITS, mode.redBits());
+        glfwWindowHint(GLFW_GREEN_BITS, mode.greenBits());
+        glfwWindowHint(GLFW_BLUE_BITS, mode.blueBits());
+        glfwWindowHint(GLFW_REFRESH_RATE, mode.refreshRate());
+        // Create the window
+        glfwWindow = glfwCreateWindow(mode.width(), mode.height(), this.title, glfwGetPrimaryMonitor(), NULL);
         if (glfwWindow == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
@@ -130,7 +137,6 @@ public class Window {
         glBlendFuncSeparate( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA );
         // Set resize callback after we make the current context.
         glfwSetWindowSizeCallback(glfwWindow, WindowResizeListener::resizeCallback);
-
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         this.targetWidth = vidMode.width();
         this.targetHeight = vidMode.height();
@@ -170,7 +176,12 @@ public class Window {
     public void setHeight(int height) {
         this.height = height;
     }
-
+    public int getWidth(){
+        return targetWidth;
+    }
+    public int getHeight(){
+        return targetHeight;
+    }
     public float getTargetAspectRatio() {
         return this.targetAspectRatio;
     }
