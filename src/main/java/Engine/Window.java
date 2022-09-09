@@ -22,7 +22,7 @@ public class Window {
 
     private int targetWidth = 1920;
     private int targetHeight = 1080;
-    private float targetAspectRatio = (float)targetWidth / (float)targetHeight;
+    private float targetAspectRatio = (float) targetWidth / (float) targetHeight;
     private int width, height;
 
     private static Window window = null;
@@ -97,18 +97,18 @@ public class Window {
         // Configure GLFW
         glfwDefaultWindowHints();
         GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-       // glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-       // glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-        //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-       // glfwWindowHint( GLFW_SCALE_TO_MONITOR,GLFW_TRUE);
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+        glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
         // Create the window
-      // glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
-        glfwWindowHint(GLFW_RED_BITS, mode.redBits());
-        glfwWindowHint(GLFW_GREEN_BITS, mode.greenBits());
-        glfwWindowHint(GLFW_BLUE_BITS, mode.blueBits());
-        glfwWindowHint(GLFW_REFRESH_RATE, mode.refreshRate());
+        glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
+        // glfwWindowHint(GLFW_RED_BITS, mode.redBits());
+        //glfwWindowHint(GLFW_GREEN_BITS, mode.greenBits());
+        // glfwWindowHint(GLFW_BLUE_BITS, mode.blueBits());
+        // glfwWindowHint(GLFW_REFRESH_RATE, mode.refreshRate());
         // Create the window
-        glfwWindow = glfwCreateWindow(mode.width(), mode.height(), this.title, glfwGetPrimaryMonitor(), NULL);
+        //glfwWindow = glfwCreateWindow(mode.width(), mode.height(), this.title, glfwGetPrimaryMonitor(), NULL);
         if (glfwWindow == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
@@ -134,13 +134,13 @@ public class Window {
         GL.createCapabilities();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        glBlendFuncSeparate( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA );
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
         // Set resize callback after we make the current context.
         glfwSetWindowSizeCallback(glfwWindow, WindowResizeListener::resizeCallback);
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         this.targetWidth = vidMode.width();
         this.targetHeight = vidMode.height();
-        this.targetAspectRatio = (float)this.targetWidth / (float)this.targetHeight;
+        this.targetAspectRatio = (float) this.targetWidth / (float) this.targetHeight;
 
         Window.changeScene(0);
     }
@@ -149,7 +149,7 @@ public class Window {
         float lastFrameTime = -1f;
 
         while (!glfwWindowShouldClose(glfwWindow)) {
-            float time = (float)glfwGetTime();
+            float time = (float) glfwGetTime();
             float dt = lastFrameTime - time;
             if (lastFrameTime == -1) {
                 dt = 1f / 60f;
@@ -176,12 +176,15 @@ public class Window {
     public void setHeight(int height) {
         this.height = height;
     }
-    public int getWidth(){
+
+    public int getWidth() {
         return targetWidth;
     }
-    public int getHeight(){
+
+    public int getHeight() {
         return targetHeight;
     }
+
     public float getTargetAspectRatio() {
         return this.targetAspectRatio;
     }

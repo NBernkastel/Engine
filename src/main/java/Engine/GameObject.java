@@ -1,5 +1,6 @@
 package Engine;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class GameObject {
     }
 
     public <T extends Component> void removeComponent(Class<T> componentClass) {
-        for (int i=0; i < components.size(); i++) {
+        for (int i = 0; i < components.size(); i++) {
             Component c = components.get(i);
             if (componentClass.isAssignableFrom(c.getClass())) {
                 components.remove(i);
@@ -55,17 +56,18 @@ public class GameObject {
     }
 
     public void update(float dt) {
-        for (int i=0; i < components.size(); i++) {
+        for (int i = 0; i < components.size(); i++) {
             components.get(i).update(dt);
         }
     }
 
     public void start() {
-        for (int i=0; i < components.size(); i++) {
+        for (int i = 0; i < components.size(); i++) {
             components.get(i).start();
         }
     }
-    public int zIndex(){
+
+    public int zIndex() {
         return this.zIndex;
     }
 }
